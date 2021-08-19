@@ -2,8 +2,22 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+    enhanced_order
   end
 
+  def enhanced_order
+    orderProducts = @order.line_items.product.map{|item| item.first.product_id}
+    
+    @enhanced_order ||= Product.where(id: orderProducts).map {
+      |product| { 
+        product:product, 
+        quantity: LineItem.select(:quantity).where(order_id: @order.id, product_id: product.id).first.quantity
+      } 
+    }
+  end
+
+  
+  
   def create
     charge = perform_stripe_charge
     order  = create_order(charge)
@@ -55,5 +69,10 @@ class OrdersController < ApplicationController
     order.save!
     order
   end
+
+  def order_subtotal_cents
+    enhanced_order.map {|entry| entry[:product].price_cents * entry[:quantity]}.sum
+  end
+  helper_method :order_subtotal_cents
 
 end
