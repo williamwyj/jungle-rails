@@ -2,6 +2,33 @@
 
 A mini e-commerce application built with Rails 4.2 for purposes of teaching Rails by example.
 
+# Implemented Features
+
+## Product Page
+* When a product has 0 quantity, a sold out badge is displayed on the product list page
+
+## Admin Features
+* Admin users can list and create new categories
+* Admins can add new products using the new category
+* User must enter HTTP auth login/password to access admin functionality
+
+## User Authentication
+* As a Visitor I can go to the registration page from any page in order to create an account
+* As a Visitor I can sign up for a user account with my e-mail, password, first name and last name
+* As a Visitor I can sign in using my e-mail and password
+* As a User I can log out from any page
+* As a User I cannot sign up with an existing e-mail address (uniqueness validation)
+* Passwords are not stored as plain text in the database. Instead, has_secure_password is used in the User model, leveraging the bcrypt gem
+
+## Order Details Page
+* The order page contains items, their image, name, description, quantities and line item totals
+* The final amount for the order is displayed
+* The email that was used to place the order is displayed
+
+## Cart
+* When the cart is empty and the user goes to the carts#show page, instead of displaying the contents and a stripe checkout button, display a friendly message about how it is empty and link to the home page
+
+
 ## Additional Steps for Apple M1 Machines
 
 1. Make sure that you are runnning Ruby 2.6.6 (`ruby -v`)
